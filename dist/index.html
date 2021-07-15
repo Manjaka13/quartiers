@@ -2,32 +2,46 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>Luxembourg</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quartiers</title>
+
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+			integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+			crossorigin=""
+		/>
 		<script
-			src="//apiv3.geoportail.lu/apiv3loader.js"
-			type="text/javascript"
+			src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+			integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+			crossorigin=""
 		></script>
 		<script src="vue.min.js"></script>
 	</head>
 
 	<body>
 		<div id="app" class="app">
-			<div class="app__controls">
+			<div id="map" class="app__map"></div>
+			<div class="app__search">
 				<div class="container">
-					<div class="head">
-						<h1 class="title">Luxembourg</h1>
-					</div>
-					<div class="separator"></div>
-					<div class="body">
-						<div id="layers" class="layers" ref="list"></div>
-					</div>
-				</div>
-			</div>
-			<div class="app__map">
-				<div id="map" class="display"></div>
-				<div class="overlay">
-					<div id="search" class="search"></div>
-					<p id="coordinates" class="coordinates"></p>
+					<form>
+						<input
+							class="input"
+							type="text"
+							placeholder="Tapez une commune"
+							v-model="search"
+						/>
+						<button class="submit" type="submit">Rechercher</button>
+					</form>
+					<ul :class="suggestion_class">
+						<li
+							class="suggestion-item"
+							v-for="s in suggestion"
+							v-on:click="suggestion_switch(s)"
+						>
+							{{s}}
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
